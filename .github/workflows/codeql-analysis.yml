@@ -1,27 +1,26 @@
-name: "CodeQL"
+name: "CodeQL Analysis"
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-  schedule:
-    - cron: '0 0 * * 0'
+    branches: [main]
 
 jobs:
   analyze:
-    name: Analyze
+    name: Analyze code with CodeQL
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        language: [ 'javascript', 'python' ]
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: ${{ matrix.language }}
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'  # 或你项目所用的 Node.js 版本
+      - name: Install dependencies
+        run: npm install
+      - name: Build the project (if applicable)
+        run: npm run build  # 如果有构建步骤，替换为你的构建命令
+      - name: Set up CodeQL
+        uses: github/codeql-action/setup-codeql@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
