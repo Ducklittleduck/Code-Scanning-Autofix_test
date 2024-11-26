@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, escape
 
 app = Flask(__name__)
 
@@ -15,8 +15,8 @@ def home():
 def greet():
     username = request.form.get('username')
     # 漏洞：没有对用户输入进行过滤和转义
-    return render_template_string(f'Hello, {username}!')
-
+    return render_template_string(f'Hello, {escape(username)}!')
+    
 if __name__ == '__main__':
     import os
     debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() in ['true', '1', 't']
