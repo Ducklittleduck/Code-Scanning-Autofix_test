@@ -5,10 +5,8 @@ CFLAGS = -Wall -g
 # 目标文件
 TARGET = test_program
 
-# 自动获取当前目录下所有的 .c 文件
-SRC = $(wildcard *.c)
-
-# 目标文件，替换 .c 为 .o
+# 源文件
+SRC = test_2.c
 OBJ = $(SRC:.c=.o)
 
 # 默认目标
@@ -19,8 +17,8 @@ $(TARGET): $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET)
 
 # 编译源文件为目标文件
-$(OBJ): %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ): $(SRC)
+	$(CC) $(CFLAGS) -c $(SRC)
 
 # 清理编译结果
 clean:
