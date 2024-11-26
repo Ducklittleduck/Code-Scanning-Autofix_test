@@ -6,11 +6,6 @@ PYTHON = python3
 # 设置虚拟环境目录
 VENV_DIR = venv
 
-# 安装依赖
-install:
-	$(PYTHON) -m venv $(VENV_DIR)
-	$(VENV_DIR)/bin/pip install -r requirements.txt
-
 # 运行代码
 run:
 	$(PYTHON) sql.py
