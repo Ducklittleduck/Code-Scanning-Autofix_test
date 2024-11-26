@@ -4,7 +4,7 @@
 void withdraw(int balance, int amount) {
     if (amount > balance) {
         printf("Insufficient funds!\n");
-        return;
+        return 0;
     }
 
     balance -= amount;
