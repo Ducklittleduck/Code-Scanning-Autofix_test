@@ -6,7 +6,7 @@ CFLAGS = -Wall -g
 TARGET = test_program
 
 # 源文件
-SRC = test_2.c
+SRC = test.c
 OBJ = $(SRC:.c=.o)
 
 # 默认目标
