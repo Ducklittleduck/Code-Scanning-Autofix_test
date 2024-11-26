@@ -1,19 +1,27 @@
-# Makefile for SQLite3 example project
+# 编译器和编译选项
+CC = gcc
+CFLAGS = -Wall -g
 
-# 设置Python解释器
-PYTHON = python3
+# 目标文件
+TARGET = test_program
 
-# 运行代码
-run:
-	$(PYTHON) sql.py
+# 源文件
+SRC = test1.c
+OBJ = $(SRC:.c=.o)
 
-# 清理任何临时文件（如果有）
+# 默认目标
+all: $(TARGET)
+
+# 链接目标
+$(TARGET): $(OBJ)
+	$(CC) $(OBJ) -o $(TARGET)
+
+# 编译源文件为目标文件
+$(OBJ): $(SRC)
+	$(CC) $(CFLAGS) -c $(SRC)
+
+# 清理编译结果
 clean:
-	rm -rf __pycache__
+	rm -f $(OBJ) $(TARGET)
 
-# 显示帮助信息
-help:
-	@echo "Usage:"
-	@echo "  make run       - Run the main Python code"
-	@echo "  make clean     - Remove any temporary files (e.g., __pycache__)"
-	@echo "  make help      - Show this help message"
+.PHONY: all clean
