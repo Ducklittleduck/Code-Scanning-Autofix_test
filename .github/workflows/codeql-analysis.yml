@@ -1,37 +1,41 @@
-name: Build and Analyze C Project
+name: Build and Analyze C++ project with GCC
 
 on:
   push:
-    branches: [main]  # 当推送到 main 分支时触发
+    branches:
+      - main
   pull_request:
-    branches: [main]  # 当向 main 分支提交 PR 时触发
+    branches:
+      - main
 
 jobs:
   build:
-    name: Build the C project
-    runs-on: ubuntu-latest  # 使用最新版本的 Ubuntu 运行这个 job
+    name: Build and Analyze with GCC
+    runs-on: ubuntu-latest  # 使用 Ubuntu 环境
 
     steps:
-      # 步骤 1: 检出代码
+      # 检出代码
       - name: Checkout code
-        uses: actions/checkout@v2  # 这个步骤将代码从 GitHub 仓库中检出到 GitHub Actions 环境
+        uses: actions/checkout@v2
 
-      # 步骤 2: 安装构建工具和依赖
-      - name: Install build dependencies
+      # 安装 GCC 编译器和其他依赖项
+      - name: Install GCC and dependencies
         run: |
-          sudo apt-get update  # 更新软件包列表
-          sudo apt-get install -y build-essential  # 安装构建工具，如 gcc 编译器和 make
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc g++ make
 
-      # 步骤 3: 构建项目
-      - name: Build the project with Make
+      # 使用 GCC 构建项目
+      - name: Build the project with GCC
         run: |
-          make clean  # 清理旧的构建文件
-          make        # 使用 make 构建项目
+          mkdir build
+          cd build
+          # 假设你的源代码在项目根目录的 `src` 文件夹中
+          gcc ../src/*.c -o my_project  # 你可以根据实际情况修改源文件路径和编译命令
 
-      # 步骤 4: 设置 CodeQL 工具进行代码分析
+      # 配置 CodeQL 工具
       - name: Set up CodeQL
-        uses: github/codeql-action/init@v2  # 配置 CodeQL 执行静态代码分析
+        uses: github/codeql-action/init@v2
 
-      # 步骤 5: 执行代码分析
-      - name: Analyze code with CodeQL
-        uses: github/codeql-action/analyze@v2  # 执行 CodeQL 分析代码，检查安全问题等
+      # 执行 CodeQL 静态分析
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v2
