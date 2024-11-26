@@ -1,30 +1,38 @@
-strategy:
-  matrix:
-    include:
-      # Analyzes C and C++ code using the commands in `Build C and C++ code`
-      - language: c-cpp
-        build-mode: manual
-      # Analyzes C# code by automatically detecting a build
-      - language: csharp
-        build-mode: autobuild
-      # Analyzes Java code directly from the codebase without a build
-      - language: java-kotlin
-        build-mode: none # analyzes Java only
-steps:
-- name: Checkout repository
-  uses: actions/checkout@v4
+name: "CodeQL Analysis"
 
-# Initializes CodeQL tools and creates a codebase for analysis.
-- name: Initialize CodeQL
-  uses: github/codeql-action/init@v3
-  with:
-    languages: ${{ matrix.language }}
-- if: ${{ matrix.build-mode == 'manual' }}
-  name: Build C and C++ code
-  run: |
-    echo 'If you are using a "manual" build mode for one or more of the' \
-      'languages you are analyzing, replace this with the commands to build' \
-      'your code, for example:'
-    echo ' make bootstrap'
-    echo ' make release'
-    exit 1
+on:
+  push:
+    branches:
+      - main  # 仅在推送到 main 分支时触发分析
+  pull_request:
+    branches:
+      - main  # 仅在 PR 针对 main 分支时触发分析
+
+jobs:
+  analyze:
+    name: "Analyze code with CodeQL"
+    runs-on: ubuntu-latest
+
+    steps:
+      # 步骤1：检出代码
+      - name: "Checkout code"
+        uses: actions/checkout@v2
+
+      # 步骤2：设置 CodeQL 环境
+      - name: "Set up CodeQL"
+        uses: github/codeql-action/setup-codeql@v2
+
+      # 步骤3：手动构建 C 项目（如果使用 make）
+      - name: "Build C project"
+        run: |
+          make  # 根据项目需求运行构建命令
+
+      # 步骤4：自动检测并构建支持的语言
+      - name: "Auto-detect languages"
+        uses: github/codeql-action/autobuild@v2
+
+      # 步骤5：运行 CodeQL 分析
+      - name: "Run CodeQL analysis"
+        uses: github/codeql-action/analyze@v2
+        with:
+          languages: python, javascript, c  # 指定支持 Python, JavaScript 和 C 语言
