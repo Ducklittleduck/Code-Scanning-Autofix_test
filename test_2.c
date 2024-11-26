@@ -8,6 +8,7 @@ void bad_function() {
     *ptr = 42;  // 错误：指针未初始化，解引用未初始化指针
     
     printf("a[5] = %d\n", a[5]);  // 错误：访问数组越界的元素
+    return;
 }
 
 int main() {
