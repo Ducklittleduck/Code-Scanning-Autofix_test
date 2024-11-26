@@ -1,41 +1,21 @@
-name: Build and Analyze C++ project with GCC
+name: CodeQL
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build:
-    name: Build and Analyze with GCC
-    runs-on: ubuntu-latest  # 使用 Ubuntu 环境
+  codeql:
+    runs-on: ubuntu-latest
 
     steps:
-      # 检出代码
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      # 安装 GCC 编译器和其他依赖项
-      - name: Install GCC and dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential gcc g++ make
+    - name: Set up CodeQL
+      uses: github/codeql-action/setup-codeql@v2
 
-      # 使用 GCC 构建项目
-      - name: Build the project with GCC
-        run: |
-          mkdir build
-          cd build
-          # 假设你的源代码在项目根目录的 `src` 文件夹中
-          gcc ../src/*.c -o my_project  # 你可以根据实际情况修改源文件路径和编译命令
-
-      # 配置 CodeQL 工具
-      - name: Set up CodeQL
-        uses: github/codeql-action/init@v2
-
-      # 执行 CodeQL 静态分析
-      - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+    - name: Analyze code
+      uses: github/codeql-action/analyze@v2
