@@ -20,5 +20,6 @@ int main() {
     user_input[strcspn(user_input, "\n")] = 0;
 
     vulnerable_function(user_input);  // 调用存在漏洞的函数
-
+    return 0;
+    
 }
