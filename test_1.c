@@ -1,11 +1,8 @@
 #include <stdio.h>
-#include <string.h>
 
-void vulnerable_function(char *input) {
-    char buffer[64];
-    // 不检查输入长度，直接将数据拷贝到缓冲区，导致可能的缓冲区溢出
-    strcpy(buffer, input);
-    printf("You entered: %s\n", buffer);
+void vulnerable_function(char *user_input) {
+    // 不安全地将用户输入传递给 printf，造成格式化字符串漏洞
+    printf(user_input);
 }
 
 int main() {
@@ -17,7 +14,7 @@ int main() {
     // 去掉输入末尾的换行符
     user_input[strcspn(user_input, "\n")] = 0;
     
-    // 调用存在漏洞的函数
+    // 调用存在格式化字符串漏洞的函数
     vulnerable_function(user_input);
     
     return 0;
