@@ -2,7 +2,7 @@
 
 void vulnerable_function(char *user_input) {
     // 不安全地将用户输入传递给 printf，造成格式化字符串漏洞
-    printf(user_input);
+    printf("%s", user_input);
 }
 
 int main() {
