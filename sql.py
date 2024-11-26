@@ -41,6 +41,14 @@ def search_user(username):
 # 创建数据库表并插入测试数据
 create_table()
 
-# 测试输入（可能是恶意的 SQL 注入）
-user_input = "' OR '1'='1"
-print(search_user(user_input))  # 这将返回所有用户的数据
+# 通过用户输入获取查询用户名
+user_input = input("Enter username to search: ")
+
+# 执行不安全的查询
+result = search_user(user_input)
+
+# 输出查询结果
+if result:
+    print("User found:", result)
+else:
+    print("User not found.")
