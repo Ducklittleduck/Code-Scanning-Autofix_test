@@ -21,5 +21,4 @@ int main() {
 
     vulnerable_function(user_input);  // 调用存在漏洞的函数
 
-    return 0;
 }
