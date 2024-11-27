@@ -33,6 +33,36 @@
 #define isinf(x) !_finite(x)
 #define isnan(x) _isnan(x)
 #endif
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <time.h>
+
+int main() {
+  const char *s = "88888888E888888888888888888888"; // {"a":1,"b":[2,false]}
+  printf("slow input test begin\n");
+  double val; // Get `a` attribute
+  clock_t begin = clock();
+  if (mjson_get_number(s, strlen(s), "$.a", &val)) // into C variable `val`
+    printf("a: %g\n", val);                        // a: 1
+  clock_t test1 = clock();
+  double time1 = (double)(test1 - begin) / CLOCKS_PER_SEC;
+  printf("test1: %fs\n", time1);
+  const char *buf;                                 // Get `b` sub-object
+  int len;                                         // into C variables `buf,len`
+  if (mjson_find(s, strlen(s), "$.b", &buf, &len)) // And print it
+    printf("%.*s\n", len, buf);                    // [2,false]
+  clock_t test2 = clock();
+  double time2 = (double)(test2 - test1) / CLOCKS_PER_SEC;
+  printf("test2: %fs\n", time2);
+
+  int v;                                          // Extract `false`
+  if (mjson_get_bool(s, strlen(s), "$.b[1]", &v)) // into C variable `v`
+    printf("boolean: %d\n", v);
+  clock_t test3 = clock();
+  double time3 = (double)(test3 - test2) / CLOCKS_PER_SEC;
+  printf("test3: %fs\n", time3);
+}
 
 static double mystrtod(const char *str, const char **end);
 
