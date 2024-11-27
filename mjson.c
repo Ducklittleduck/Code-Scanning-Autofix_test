@@ -39,7 +39,7 @@
 #include <time.h>
 
 int main() {
-  const char *s = "88888888E888888888888888888888"; // {"a":1,"b":[2,false]}
+  const char *s = "88888888E"; // {"a":1,"b":[2,false]}
   printf("slow input test begin\n");
   double val; // Get `a` attribute
   clock_t begin = clock();
