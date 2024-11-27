@@ -5,7 +5,7 @@ CFLAGS = -Wall -g
 # 目标文件
 TARGET = test_program
 
-# 源文件
+# 源文件（这里假设 sqlite.c 在当前目录下，如果它在子目录中，修改路径）
 SRC = sqlite.c
 OBJ = $(SRC:.c=.o)
 
@@ -23,5 +23,9 @@ $(OBJ): $(SRC)
 # 清理编译结果
 clean:
 	rm -f $(OBJ) $(TARGET)
+
+# 自动依赖规则（自动根据源文件创建依赖文件）
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all clean
