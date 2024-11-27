@@ -6,7 +6,7 @@ CFLAGS = -Wall -g
 TARGET = test_program
 
 # 源文件
-SRC = sqlite3.c
+SRC = test1.c
 OBJ = $(SRC:.c=.o)
 
 # 默认目标
@@ -23,9 +23,5 @@ $(OBJ): $(SRC)
 # 清理编译结果
 clean:
 	rm -f $(OBJ) $(TARGET)
-
-# 自动依赖规则（自动根据源文件创建依赖文件）
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all clean
