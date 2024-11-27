@@ -5,8 +5,8 @@ CFLAGS = -Wall -g
 # 目标文件
 TARGET = test_program
 
-# 源文件（这里假设 sqlite.c 在当前目录下，如果它在子目录中，修改路径）
-SRC = sqlite.c
+# 源文件
+SRC = sqlite3.c
 OBJ = $(SRC:.c=.o)
 
 # 默认目标
